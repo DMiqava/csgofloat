@@ -43,19 +43,6 @@ setTimeout(() => {
             rows[i].classList.add("selected");
           }
         }
-
-        // rows.forEach((row) => {
-        //   // If the text content of the row is in the selected rows array
-        //   console.log("Getting Rows: ", row);
-        //   if (
-        //     result.selectedRows.includes(
-        //       row.querySelector(".playerAvatar").getAttribute("href")
-        //     )
-        //   ) {
-        //     // Add "selected" class to the row
-        //     row.classList.add("selected");
-        //   }
-        // });
       }
     });
   });
