@@ -3,11 +3,8 @@
   "name": "csgofloat marker",
   "version": "0.1.0",
   "description": "mark limited profiles",
-  "permissions": ["storage", "tabs"],
+  "permissions": ["storage", "tabs", "activeTab"],
   "host_permissions": ["https://csgofloat.com/*"],
-  "background": {
-    "service_worker": "background.js"
-  },
   "content_scripts": [
     {
       "matches": ["https://csgofloat.com/*"],
