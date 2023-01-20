@@ -1,52 +1,63 @@
 console.log("Content Loaded");
 let logo = document.querySelector(".logo");
 
-console.log(logo);
-
 setTimeout(() => {
-  let allTr = document.getElementsByTagName("tr");
-  console.log("Hello nigga: ", allTr[1]);
+  let rows = document.querySelectorAll("table tr");
+  console.log("Table rows: ", rows);
 
-  for (let i = 0; i < allTr.length; i++) {
-    let clickableEl = allTr[i].firstChild;
-    clickableEl.style.outline = "1px solid white";
+  rows.forEach((row) => {
+    row.addEventListener("click", (event) => {
+      event.target.parentNode.classList.add("selected");
 
-    let clicked = false;
+      const selectedRows = document.querySelectorAll("table tr.selected");
 
-    clickableEl.addEventListener("click", () => {
-      console.log("clicked: ", allTr[i]);
+      const selectedRowsArray = Array.from(selectedRows);
 
-      // make color green
-      if (clicked) {
-        allTr[i].style.backgroundColor = "inherit";
-        clicked = false;
-      } else {
-        allTr[i].style.backgroundColor = "green";
-        clicked = true;
-      }
+      const selectedProfileLinks = selectedRowsArray.map((row) =>
+        row.querySelector(".playerAvatar").getAttribute("href")
+      );
 
-      // get profile link of the user
-      let profileLink = allTr[i]
-        .querySelector(".playerAvatar")
-        .getAttribute("href");
-      console.log(profileLink);
+      console.log("Selected Profiles", selectedProfileLinks);
 
-      if (clicked) {
-        chrome.storage.sync.set({
-          profileId: profileLink,
-        });
+      console.log(selectedRowsArray);
+
+      chrome.storage.local.set({ selectedRows: selectedProfileLinks }, () => {
+        console.log("Selected rows saved to chrome.storage");
+      });
+    });
+  });
+
+  window.addEventListener("load", () => {
+    chrome.storage.local.get("selectedRows", (result) => {
+      // If there are selected rows in storage
+      if (result.selectedRows) {
+        // Loop through all table rows
+        console.log("Storage Rows: ", result.selectedRows);
+        console.log("New Rows", rows);
+
+        for (let i = 0; i < rows.length; i++) {
+          console.log("Getting Rows", rows[i])
+          let profileLink = rows[i].querySelector(".playerAvatar")?.getAttribute("href") || ""
+
+          if (result.selectedRows.includes(profileLink)) {
+            rows[i].classList.add("selected");
+          }
+        }
+
+        // rows.forEach((row) => {
+        //   // If the text content of the row is in the selected rows array
+        //   console.log("Getting Rows: ", row);
+        //   if (
+        //     result.selectedRows.includes(
+        //       row.querySelector(".playerAvatar").getAttribute("href")
+        //     )
+        //   ) {
+        //     // Add "selected" class to the row
+        //     row.classList.add("selected");
+        //   }
+        // });
       }
     });
+  });
 
-    console.log(allTr[i]);
-  }
 }, 8000);
-
-// let allTr = document.querySelectorAll('tr')
-
-// allTr.forEach((el) => {
-//   console.log(el);
-//   el.addEventListener('click', () => {
-//     el.style.backgroundColor = 'green'
-//   })
-// });

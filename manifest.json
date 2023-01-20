@@ -11,7 +11,8 @@
   "content_scripts": [
     {
       "matches": ["https://csgofloat.com/*"],
-      "js": ["contentScript.js"]
+      "js": ["contentScript.js"],
+      "css": ["styles.css"]
     }
   ],
   "web_accessible_resources": [
