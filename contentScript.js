@@ -2,6 +2,18 @@
   let logo = document.querySelector(".logo");
   console.log("Content and logo loaded", logo);
 
+  const sButton = document.querySelector(
+    ".mat-focus-indicator.mat-button.mat-button-base.fullWidth.mat-raised-button.mat-primary"
+  );
+  console.log(sButton);
+
+  sButton.addEventListener("click", () => {
+    setTimeout(() => {
+      console.log("Reloading...")
+      window.location.reload();
+    }, 5000)
+  });
+
   window.setTimeout(() => {
     let rows = document.querySelectorAll("table tr");
     console.log("Table rows: ", rows);
@@ -39,8 +51,6 @@
         console.log("New Rows", rows);
 
         for (let i = 0; i < rows.length; i++) {
-          console.log("Getting Rows", rows[i]);
-
           let profileLink =
             rows[i].querySelector(".playerAvatar")?.getAttribute("href") || "";
 
